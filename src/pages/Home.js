@@ -64,7 +64,7 @@ const Home = () => {
       </Col>
 
       <Col xs={{ span: 24 }} md={{ span: 10 }}>
-        <SelectedTab data={getMenu} setSong={setSong} handleUpdateRecentlyPlayed={handleUpdateRecentlyPlayed} />
+        <SelectedTab data_={getMenu} setSong={setSong} handleUpdateRecentlyPlayed={handleUpdateRecentlyPlayed} />
       </Col>
       <Col xs={{ span: 24 }} md={{ span: 10 }} >
         <TrackPlayer data={getSong} tracks={data?.getSongs || []} handleUpdateRecentlyPlayed={handleUpdateRecentlyPlayed} />
