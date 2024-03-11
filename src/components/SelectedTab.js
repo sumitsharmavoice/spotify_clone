@@ -1,34 +1,90 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import { Input, Tooltip } from 'antd';
+import { UserOutlined, SearchOutlined } from '@ant-design/icons';
+import '../index.css'
+// import { GET_SONGS } from '../graphql';
 
-function SelectedTab(props) {
+
+const GET_SONGS = gql`
+  query getSongs($search: String, $songType: String) {
+    getSongs(search: $search, songType: $songType) {
+      id
+      photoUrl
+      audioUrl
+      duration
+      title
+      artist
+    }
+  }
+`;
+
+function SelectedTab({ data, setSong, handleUpdateRecentlyPlayed }) {
     const dataArr = [
-        { song: 'The End Where I begin', track: 'The Script', time: '4:20', trackimg: 'https://i.ytimg.com/vi/b4hrUSBP4nc/maxresdefault.jpg' },
-        { song: 'Clocks', track: 'Coldplay', time: '5:20', trackimg: 'https://m.timesofindia.com/photo/105323014/size-110641/105323014.jpg' },
-        { song: 'Superheroes', track: 'The Script', time: '4:50', trackimg: 'https://static.mirchi.in/thumb/imgsize-41310,msid-97918466,width-400,height-225,resizemode-1,webp-1/97918466.jpg' },
-        { song: 'Clocks', track: 'Coldplay', time: '5:20', trackimg: 'https://m.timesofindia.com/photo/105323014/size-110641/105323014.jpg' },
-        { song: 'Superheroes', track: 'The Script', time: '4:50', trackimg: 'https://static.mirchi.in/thumb/imgsize-41310,msid-97918466,width-400,height-225,resizemode-1,webp-1/97918466.jpg' },
+        { title: 'The End Where I begin', artist: 'The Script', duration: '4:20', photoUrl: 'https://i5.walmartimages.com/asr/a26140a3-203a-4558-bba8-6c7ffe6d014d.1ac8ca7a1d727eecac5eebdf945022dd.png?odnHeight=612&odnWidth=612&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+        { title: 'Clock', artist: 'Coldplay', duration: '5:20', photoUrl: 'https://m.media-amazon.com/images/I/61AtJTBvalL.jpg', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+        { title: 'Superheroe', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' },
+        { title: 'Clocks', artist: 'Coldplay', duration: '5:20', photoUrl: 'https://m.media-amazon.com/images/I/61AtJTBvalL.jpg', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3' },
+        { title: 'Superheroese', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+        { title: 'Superheroesef', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+        { title: 'Superheroesg', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+        { title: 'Superheroesh', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+        { title: 'Superheroesi', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+        { title: 'Superheroesj', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+        { title: 'Superheroesk', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+        { title: 'Superheroesl', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
+        { title: 'Superheroesm', artist: 'The Script', duration: '4:50', photoUrl: 'https://i5.walmartimages.com/asr/e5fb062b-522b-41de-befd-91c2349c580e.25d6595cfd0c9ae770673b03ca70da1f.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF', audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3' },
     ]
+
+    const [getBg, setBg] = useState('The End Where I begin')
+    // const RECENTLY_PLAYED = data
+    const { loading, error, data: SongsData } = useQuery(GET_SONGS, {
+        variables: { search: 'My Song', songType: data },
+    });
+    console.warn("sumit", data, typeof data)
+
+
+
     const handleSongs = (el) => {
-        props.setSong(el)
+        setSong(el)
+        console.log(el.title, "Sumits")
+        setBg(el.title)
+        // handleUpdateRecentlyPlayed(el.id);
+
     }
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', paddingTop: '20px', gap: '10px', flexDirection: 'column', }}>
-            <div style={{ fontSize: '20px', display: 'flex', width: '80%', fontWeight: 'bold' }}>{props.data}</div>
-            {dataArr.map((el, index) => (
-                <div
-                    onClick={() => handleSongs(el)}
-                    key={index} style={{ display: 'flex', width: '80%', padding: '4px', gap: '4px', background: 'lightGray', borderRadius: '4px', alignItems: 'center', color: "#080808", fontSize: '14px', cursor: 'pointer' }}
-                >
-                    <img style={{ borderRadius: '50%' }} src={el.trackimg} width='40px' height='40px' />
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                        <p style={{ margin: 0 }}>{el.song}</p>
-                        <p style={{ margin: 0 }}>{el.track}</p>
+        <div className='tab-maincontainer' >
+            <div className='tab-heading'>{data}</div>
+            {loading && <p className='tab-message'>loading...</p>}
+            {error && <p className='tab-message'>{error.message}</p>}
+            {/* {SongsData && SongsData.getSongs.map((el, index) => ( */}
+            <div style={{ width: '80%' }} >
+                <Input
+                    placeholder="Search Song / Artist"
+                    suffix={
+                        <Tooltip title="search">
+                            <SearchOutlined style={{ cursor: 'pointer' }} />
+                        </Tooltip>
+                    }
+                />
+            </div>
+            <div className='scrollable-container' >
+                {dataArr.map((el, index) => (
+                    <div
+                        onClick={() => handleSongs(el)}
+                        key={index} className={getBg === el.title ? 'tab-listing_container_scnd' : 'tab-listing_container'}
+                    >
+                        <img className='tab-imageWrapper' src={el.photoUrl} alt={el.title} />
+                        <div className='tab-title_artist_textWrapper'>
+                            <p>{el.title}</p>
+                            <span>{el.artist}</span>
+                        </div>
+                        <div className='tab-duration'>{el.duration}</div>
                     </div>
-                    <div style={{ marginLeft: 'auto' }}>{el.time}</div>
-                </div>
-            )
-            )}
+                )
+                )}
+            </div>
         </div>
     )
 }
