@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Menu from "../components/Menu";
 import SelectedTab from "../components/SelectedTab";
 import TrackPlayer from "../components/TrackPlayer";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Col, Row } from "antd";
 import "../index.css";
 import Footer from "../components/Footer";
@@ -22,7 +22,7 @@ const Home = () => {
       const result = await updateRecentlyPlayed({
         variables: { songId },
       });
-      console.log(result.data.updateRecentlyPlayed.ok); 
+      console.log(result.data.updateRecentlyPlayed.ok);
     } catch (error) {
       console.error(error);
     }
@@ -56,10 +56,8 @@ const Home = () => {
             playButton={playButton}
             setPlayButton={setPlayButton}
             setSong={setSong}
-            getBg={getBg}
             setBg={setBg}
             tracks={getFullList?.getSongs || []}
-            handleUpdateRecentlyPlayed={handleUpdateRecentlyPlayed}
           />
         </Col>
       </Row>

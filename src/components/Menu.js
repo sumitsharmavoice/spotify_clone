@@ -2,7 +2,7 @@ import React from "react";
 import { SpotifyFilled } from "@ant-design/icons";
 import "../index.css";
 import { Typography } from "antd";
-function Menu({ getMenu, setMenu, handleUpdateRecentlyPlayed }) {
+function Menu({ getMenu, setMenu,  }) {
   const handleClick = (text) => {
     if (getMenu !== text) {
       setMenu(text);

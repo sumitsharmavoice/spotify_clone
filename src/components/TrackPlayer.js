@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 import { baseUrl } from "../graphql";
 
-function TrackPlayer({ data_, getBg, setBg, playButton, setPlayButton, tracks, setSong }) {
+function TrackPlayer({ data_, setBg, playButton, setPlayButton, tracks, setSong }) {
     const audioRef = useRef(null);
     const [volume, setVolume] = useState(5);
     const [currentTime, setCurrentTime] = useState(0);
@@ -19,8 +19,6 @@ function TrackPlayer({ data_, getBg, setBg, playButton, setPlayButton, tracks, s
     const [isVolumeSliderVisible, setIsVolumeSliderVisible] = useState(false);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
-
-    console.log("trackdata-->", tracks?.[0]?.title)
     useEffect(() => {
         if (data_) {
             audioRef.current.src = `${baseUrl}${data_?.audioUrl}`;
@@ -114,6 +112,7 @@ function TrackPlayer({ data_, getBg, setBg, playButton, setPlayButton, tracks, s
                         className="track-imgWrapper"
                         width={"100%"}
                         src={`${baseUrl}${data_?.photoUrl}`}
+                        alt={data_?.title}
                     />
                     <Slider
                         value={currentTime}
