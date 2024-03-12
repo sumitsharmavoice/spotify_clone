@@ -1,17 +1,17 @@
 // graphql.js
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const GET_SONGS = gql`
-query GetSongs(  $songType: String!) {
-  getSongs( songType: $songType) {
-    id
-    photoUrl
-    audioUrl
-    duration
-    title
-    artist
+  query GetSongs($songType: SongType,$search:String) {
+    getSongs(songType: $songType,search:$search) {
+      id
+      photoUrl
+      audioUrl
+      duration
+      title
+      artist
+    }
   }
-}
 `;
 
 export const UPDATE_RECENTLY_PLAYED = gql`
@@ -21,3 +21,5 @@ export const UPDATE_RECENTLY_PLAYED = gql`
     }
   }
 `;
+
+export const baseUrl = "https://song-tc.pixelotech.com";

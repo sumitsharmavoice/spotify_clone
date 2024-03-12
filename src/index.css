@@ -123,8 +123,14 @@ code {
 }
 
 .tab-message {
-  font-size: 16px;
-  color: rgb(208, 115, 135);
+  color: rgb(107, 59, 59);
+  width: 80%;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+  font-weight: 600;
 }
 
 .tab-listing_container {
@@ -219,6 +225,18 @@ code {
   background-color: rgb(62 74 84);
   box-shadow: none;
 }
+
+.loadingDiv {
+  color: rgb(107, 59, 59);
+  width: 80%;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+  font-weight: 600;
+}
+
 
 /*--------------------------------------*/
 /* Menu.js */
