@@ -65,7 +65,6 @@ function SelectedTab({ data_, setSong, getBg, setBg, setPlayButton, setFullList,
           }
           onChange={(e) => handleSearch(e.target.value)}
         />
-        {<div>hello</div>}
       </div>
       <div className="scrollable-container">
         {loading && <p className="tab-message">Loading...</p>}
