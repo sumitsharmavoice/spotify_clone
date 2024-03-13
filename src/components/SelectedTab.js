@@ -3,16 +3,20 @@ import { useQuery } from "@apollo/client";
 import { Input, Tooltip } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import "../index.css";
-import { GET_SONGS, baseUrl } from "../graphql";
+import { GET_SONGS, GET_SONGS_SEARCH, baseUrl } from "../graphql";
 
 function SelectedTab({ data_, setSong, getBg, setBg, setPlayButton, setFullList, handleUpdateRecentlyPlayed }) {
   const [defaultSongSet, setDefaultSongSet] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const songType = data_;
+  const includeSearch = (data_ !== 'RECENTLY PLAYED');
 
-  const { loading, error, data: songsData, refetch } = useQuery(GET_SONGS, {
-    variables: { songType, search: searchQuery },
+  const query = includeSearch ? GET_SONGS : GET_SONGS_SEARCH;
+  const variables = includeSearch ? { songType, search: searchQuery } : { songType };
+
+  const { loading, error, data: songsData, refetch } = useQuery(query, {
+    variables,
   });
 
   useEffect(() => {

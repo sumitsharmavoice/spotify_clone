@@ -2,6 +2,18 @@
 import { gql } from "@apollo/client";
 
 export const GET_SONGS = gql`
+  query GetSongs($songType: SongType) {
+    getSongs(songType: $songType) {
+      id
+      photoUrl
+      audioUrl
+      duration
+      title
+      artist
+    }
+  }
+`;
+export const GET_SONGS_SEARCH = gql`
   query GetSongs($songType: SongType,$search:String) {
     getSongs(songType: $songType,search:$search) {
       id
