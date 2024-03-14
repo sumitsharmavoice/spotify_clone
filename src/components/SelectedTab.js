@@ -10,7 +10,7 @@ function SelectedTab({ data_, setSong, getBg, setBg, setPlayButton, setFullList,
   const [searchQuery, setSearchQuery] = useState("");
 
   const songType = data_;
-  const includeSearch = (data_ !== 'RECENTLY PLAYED');
+  const includeSearch = (data_ !== 'RECENTLY_PLAYED');
 
   const query = includeSearch ? GET_SONGS_SEARCH : GET_SONGS;
   const variables = includeSearch ? { songType, search: searchQuery } : { songType };
