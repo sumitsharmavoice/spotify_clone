@@ -12,7 +12,7 @@ function SelectedTab({ data_, setSong, getBg, setBg, setPlayButton, setFullList,
   const songType = data_;
   const includeSearch = (data_ !== 'RECENTLY PLAYED');
 
-  const query = includeSearch ? GET_SONGS : GET_SONGS_SEARCH;
+  const query = includeSearch ? GET_SONGS_SEARCH : GET_SONGS;
   const variables = includeSearch ? { songType, search: searchQuery } : { songType };
 
   const { loading, error, data: songsData, refetch } = useQuery(query, {
